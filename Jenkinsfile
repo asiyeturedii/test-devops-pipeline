@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "mini-bi-pipeline"
+        IMAGE_NAME = "test-devops-pipeline"
         IMAGE_TAG  = "latest"
-        CONTAINER_NAME = "mini-bi-app"
+        CONTAINER_NAME = "test-devops-app"
         PORT = "8081"
+        PATH = "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     }
 
     stages {
@@ -20,14 +21,14 @@ pipeline {
         stage('🔍 Test') {
             steps {
                 echo "Go testleri çalıştırılıyor..."
-                sh 'go test ./... || true'
+                sh '/opt/homebrew/bin/go test ./... || true'
             }
         }
 
         stage('🐳 Docker Build') {
             steps {
                 echo "Docker image build ediliyor..."
-                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                sh "/usr/local/bin/docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
 
@@ -35,8 +36,8 @@ pipeline {
             steps {
                 echo "Eski container temizleniyor (varsa)..."
                 sh """
-                    docker stop ${CONTAINER_NAME} || true
-                    docker rm   ${CONTAINER_NAME} || true
+                    /usr/local/bin/docker stop ${CONTAINER_NAME} || true
+                    /usr/local/bin/docker rm   ${CONTAINER_NAME} || true
                 """
             }
         }
@@ -45,7 +46,7 @@ pipeline {
             steps {
                 echo "Yeni container başlatılıyor..."
                 sh """
-                    docker run -d \
+                    /usr/local/bin/docker run -d \
                         --name ${CONTAINER_NAME} \
                         -p ${PORT}:${PORT} \
                         --restart unless-stopped \
