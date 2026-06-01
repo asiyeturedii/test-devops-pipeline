@@ -49,7 +49,7 @@ func welcomeHandler(w http.ResponseWriter, r *http.Request) {
 </head>
 <body>
     <div class="card">
-        <h1>🚀 Hoş Geldiniz!</h1>
+        <h1>🚀 Hello!</h1>
         <p>Mini BI Pipeline Mikroservisi</p>
         <p>🕐 %s</p>
         <p>🖥️ Host: %s</p>
